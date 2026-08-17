@@ -1,0 +1,11 @@
+# python缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.log
+sessions/
+.venv/
+venv/
+.DS_Store
