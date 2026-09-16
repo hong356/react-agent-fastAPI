@@ -1,7 +1,7 @@
 # ReAct Agent 智能体项目
 ## 项目简介
 基于Python + FastAPI实现ReAct推理智能体，对接阿里云DashScope大模型，SSE流式输出，支持会话持久化。
-技术栈：Python3.8、FastAPI、httpx异步请求、Redis（可选）、本地JSON会话存储。
+技术栈：Python3.8、FastAPI、httpx异步请求、本地JSON会话存储。
 
 ## 功能
 1. ReAct 思考+工具调用智能体
