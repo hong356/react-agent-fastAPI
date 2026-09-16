@@ -1,27 +1,15 @@
-import asyncio
-import logging
-from functools import wraps
-from httpx import TransportError, TimeoutException
+from typing import List, Dict
 
-logger = logging.getLogger("agent")
-# 仅这些临时异常允许重试
-RETRY_EXC = (TransportError, TimeoutException)
+def clean_messages(messages: List[Dict]) -> List[Dict]:
+    """清洗消息字典，剔除值为None的字段"""
+    res = []
+    for msg in messages:
+        new_msg = {k: v for k, v in msg.items() if v is not None}
+        res.append(new_msg)
+    return res
 
 
-def async_retry(max_times=2, sleep_sec=1):
-    def decorator(func):
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            attempt = 0
-            while True:
-                try:
-                    return await func(*args, **kwargs)
-                except RETRY_EXC as e:
-                    attempt += 1
-                    if attempt > max_times:
-                        logger.error(f"重试{max_times}次仍然失败 | 异常:{e}")
-                        raise
-                    logger.warning(f"网络临时异常，等待{sleep_sec}s，第{attempt}次重试")
-                    await asyncio.sleep(sleep_sec)
-        return wrapper
-    return decorator
+def trim_chat_history(system_msg: Dict, chat_history: List[Dict], max_len: int):
+    """截断对话历史，保留system，取后面max_len-1条"""
+    new_history = [system_msg] + chat_history[-(max_len - 1):]
+    return new_history

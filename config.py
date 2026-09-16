@@ -1,14 +1,18 @@
 import os
-from pathlib import Path
+from dotenv import load_dotenv
 
-# ========== 临时测试：直接硬编码，绕过.env ==========
-DASHSCOPE_API_KEY="sk-ws-H.EEDYEMY.q7Lh.MEYCIQCiuhQZP-WhtdXdsiJiLh0zSBQV8P7gY_mMXh9DE8SQ2AIhAO9BfS9nIkqBdyqXd0xV98xEhvNIo34KfxyjDHJjyYan"
-DASHSCOPE_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
-LLM_MODEL="qwen-turbo"
-# ==================================================
+load_dotenv()
 
-# 对话配置
-MAX_HISTORY_ROUND = 6
-# 会话配置
-SESSION_DIR = "./sessions"
-SESSION_EXPIRE_DAY = 7
+# 大模型配置
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY")
+MODEL_NAME = "qwen-turbo"
+
+# Redis配置
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+REDIS_DB = int(os.getenv("REDIS_DB", 0))
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
+
+# 日志配置
+LOG_LEVEL = "INFO"
+LOG_FILE = "agent.log"
